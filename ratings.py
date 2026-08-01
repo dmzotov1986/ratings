@@ -1,0 +1,5 @@
+first, second, result = map(float, input("Введите рейтинги двух игроков и результат матча (количество набранных очков первым игроком - 0, 1, 2): ").split())
+increase = result - 2 / (10 ** ((second - first) / 25) + 1)
+first += increase
+second -= increase
+print("Рейтинги игроков:", first, second)
