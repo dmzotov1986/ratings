@@ -3,3 +3,5 @@ increase = result - 2 / (10 ** ((second - first) / 25) + 1)
 first += increase
 second -= increase
 print("Рейтинги игроков:", first, second)
+class Rating:
+	def 
