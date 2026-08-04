@@ -4,4 +4,7 @@ first += increase
 second -= increase
 print("Рейтинги игроков:", first, second)
 class Rating:
-	def 
+	def __init__(self):
+		self.rating = 0
+	def won(self, defeated):
+		
