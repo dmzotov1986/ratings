@@ -6,5 +6,7 @@ print("Рейтинги игроков:", first, second)
 class Rating:
 	def __init__(self):
 		self.rating = 0
-	def won(self, defeated):
-		
+	def update(self, other, result):
+		increase = result - 2 / (10 ** ((other.rating - self.rating) / 25) + 1)
+		self.rating += increase
+		other.rating -= increase
