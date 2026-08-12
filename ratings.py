@@ -18,7 +18,33 @@ class Rating:
 		other._rating -= increase
 	def __init__(self, rating = 0.0):
 		self._rating = rating
-inputs = list(map(float, input("Введите рейтинги двух игроков и результат матча (количество набранных очков первым игроком - 0, 1, 2): ").split()))
-first, second = ratings = [Rating(i) for i in inputs[:-1]]
-first.update(second, inputs[2])
-print("Рейтинги игроков:", " ".join([str(r.rating) for r in ratings]))
+class Draw:
+	def __init__(self, n):
+		self._n = n
+draw = Draw(5)
+t = [[None for _ in range(9)] for _ in range(16)]
+for p1 in range(1, 17):
+	for p2 in range(p1 + 1, 17):
+		for i in range(1, 16):
+			for j in range(1, 9):
+				if t[i][j] == None:
+					for k in range(1, j):
+						if t[i][k] == None or t[i][k][1] == p1 or t[i][k][1] == p2 or t[i][k][2] == p1 or t[i][k][2] == p2:
+							break
+					else:
+						t[i][j] = [None, p1, p2]
+						break
+			else:
+				continue
+			break
+for i in range(1, 16):
+	for j in range(1, 9):
+		print(f"{t[i][j][1]:2}:{t[i][j][2]:2}", end = " ")
+	print()
+#1:2 3:4 5:6 7:8
+#1:3 2:4 5:7 6:8
+#1:4 2:3 5:8 6:7
+#1:5 2:6 3:7 4:8
+#1:6 2:5 3:8 4:7
+#1:7 2:8 3:5 4:6
+#1:8 2:7 3:6 4:5
