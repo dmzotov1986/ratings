@@ -22,23 +22,25 @@ class Draw:
 	def __init__(self, n):
 		self._n = n
 draw = Draw(5)
-n = 64
-c = int((n + 1) / 2)
-t = [[None for _ in range(c + 1)] for _ in range(n)]
+n = 6
+c = (n + 1) // 2
+t = [[None] * (c + 1) for _ in range(n)]
 for p1 in range(1, n + 1):
 	for p2 in range(p1 + 1, n + 1):
 		for i in range(1, n):
 			for j in range(1, c + 1):
 				if t[i][j] == None:
 					for k in range(1, j):
-						if t[i][k] == None or t[i][k][1] == p1 or t[i][k][1] == p2 or t[i][k][2] == p1 or t[i][k][2] == p2:
+						if t[i][k][1] == p1 or t[i][k][1] == p2 or t[i][k][2] == p1 or t[i][k][2] == p2:
 							break
 					else:
 						t[i][j] = [None, p1, p2]
+						break_i = True
 						break
-			else:
-				continue
-			break
+					break_i = False
+					break
+			if break_i:
+				break
 for i in range(1, n):
 	for j in range(1, c + 1):
 		print(f"{t[i][j][1]:2}:{t[i][j][2]:2}", end = " ")
