@@ -22,29 +22,37 @@ class Draw:
 	def __init__(self, n):
 		self._n = n
 draw = Draw(5)
-n = 6
-c = (n + 1) // 2
-t = [[None] * (c + 1) for _ in range(n)]
-for p1 in range(1, n + 1):
-	for p2 in range(p1 + 1, n + 1):
-		for i in range(1, n):
-			for j in range(1, c + 1):
-				if t[i][j] == None:
-					for k in range(1, j):
-						if t[i][k][1] == p1 or t[i][k][1] == p2 or t[i][k][2] == p1 or t[i][k][2] == p2:
-							break
-					else:
-						t[i][j] = [None, p1, p2]
-						break_i = True
-						break
-					break_i = False
-					break
-			if break_i:
-				break
-for i in range(1, n):
-	for j in range(1, c + 1):
-		print(f"{t[i][j][1]:2}:{t[i][j][2]:2}", end = " ")
-	print()
+variants = [i for i in range(1, int(input("N?: ")) + 1)]
+used = set()
+tour = []
+calls = 0
+def next_match(match, variants, used, tour):
+	global calls
+	if match:
+		used.add(match)
+		tour.append(match)
+		variants.remove(match[1])
+	if variants:
+		p1 = variants.pop(0)
+		for p2 in variants:
+			match = (p1, p2)
+			if p1 == 1:
+				print("Match:", match)
+			if match in used:
+				continue
+			calls = calls + 1
+			if calls == 500000:
+				print("Tour:", tour)
+				calls = 0
+			if data := next_match(match, variants.copy(), used.copy(), tour.copy()):
+				if p1 == 1:
+					print(data[1])
+					used = data[0]
+					continue
+				return data
+		return False
+	return used, tour
+next_match(None, variants, used, tour)
 #1:2 3:4 5:6
 #1:3 2:5 4:6
 #1:4 2:6 3:5
