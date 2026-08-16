@@ -22,7 +22,7 @@ class Draw:
 	def __init__(self, n):
 		self._n = n
 draw = Draw(5)
-variants = [i for i in range(1, int(input("N?: ")) + 1)]
+#variants = [i for i in range(1, int(input("N?: ")) + 1)]
 used = set()
 tour = []
 calls = 0
@@ -38,23 +38,41 @@ def next_match(match, variants, used, tour):
 			match = (p1, p2)
 			if p1 == 1:
 				print("Match:", match)
-			if match in used:
-				continue
-			calls = calls + 1
-			if calls == 500000:
-				print("Tour:", tour)
-				calls = 0
-			if data := next_match(match, variants.copy(), used.copy(), tour.copy()):
-				if p1 == 1:
-					print(data[1])
-					used = data[0]
-					continue
-				return data
+			if match not in used:
+				calls += 1
+				if calls == 500000:
+					print("Tour:", tour)
+					calls = 0
+				all_used = next_match(match, variants.copy(), used.copy(), tour.copy())
+				if all_used:
+					if p1 > 1:
+						return all_used
+					used = all_used
 		return False
-	return used, tour
-next_match(None, variants, used, tour)
+	print(tour)
+	return used
+#next_match(None, variants, used, tour)
+#Кроме Бергера, оттопыренный от текущего край проверять сначала?
 #1:2 3:4 5:6
 #1:3 2:5 4:6
 #1:4 2:6 3:5
 #1:5 2:4 3:6
 #1:6 2:3 4:5
+def substitute(p):
+	if p == 1:
+		return 1
+	if p == 2:
+		return n
+	return p - 1
+n = int(input("N?: "))
+t = [[p1, n + 1 - p1] for p1 in range(1, n // 2 + 1)]
+print(t)
+for _ in range(n - 2):
+	t2 = []
+	for p1, p2 in t:
+		match = [substitute(p1), substitute(p2)]
+		match.sort()
+		t2.append(match)
+	t2.sort()
+	t = t2
+	print(t)
