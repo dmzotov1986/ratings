@@ -60,18 +60,19 @@ def substitute(p):
 		return n
 	return p - 1
 n = int(input("N?: "))
-t = [[p1, n + 1 - p1] for p1 in range(1, n // 2 + 1)]
+t = [[p1, n + 1 - p1, n + 1] for p1 in range(1, n // 2 + 1)]
 table = []
 for _ in range(n - 1):
 	table.append(t)
 	t2 = []
-	for p1, p2 in t:
+	for p1, p2, _ in t:
 		match = [substitute(p1), substitute(p2)]
 		match.sort()
+		match.append(sum(match))
 		t2.append(match)
 	t2.sort()
 	t = t2
 table.reverse()
 for t in table:
 	print(t)
-#Арифметические закономерности, можно считать на программируемом или обычном калькуляторе.
+#Арифметические закономерности, можно считать на программируемом или обычном калькуляторе. С помощью подстановки можно сделать, чтобы был тур с соседними игроками?
