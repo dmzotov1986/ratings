@@ -1,4 +1,6 @@
 class Rating:
+	def __init__(self, rating = 0.0):
+		self._rating = rating
 	@property
 	def rating(self):
 		return self._rating
@@ -16,24 +18,24 @@ class Rating:
 		increase = result - 2 / (10 ** ((other._rating - self._rating) / 25) + 1)
 		self._rating += increase
 		other._rating -= increase
-	def __init__(self, rating = 0.0):
-		self._rating = rating
 class Draw:
+	def __init__(self, n):
+		if n <= 0:
+			raise ValueError("Количество участников натуральное число")
+		self._n = n
+		self._tour = tuple((p, n + 1 - p) for p in range(1, (n + 1) // 2 + 1))
 	@property
 	def tour(self):
 		return self._tour
 	def next(self):
-		self._tour = tuple((Draw._substitute(p1), Draw._substitute(p2)) for p1, p2 in self._tour)
-	@staticmethod
-	def _substitute(p):
-		if p == 1:
-			return 1
-		if p == 2:
-			return n
-		return p - 1
-	def __init__(self, n):
-		#Проверить n или обрабатывать в середине?
-		self._tour = tuple((p, n + 1 - p) for p in range(1, n // 2 + 1))
+		self._tour = tuple((self._substitute(p1), self._substitute(p2)) for p1, p2 in self._tour)
+	def _substitute(self, p):
+		p -= 1
+		if p > 1:
+			return p
+		if p:
+			return self._n
+		return 1
 n = int(input("N?: "))
 draw = Draw(n)
 print(draw.tour)
