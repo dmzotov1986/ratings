@@ -5,14 +5,15 @@ class Draw:
 		self.n = n
 		self.tour = tuple((p, n + 1 - p) for p in range(1, (n + 1) // 2 + 1))
 	def next(self):
-		self.tour = tuple((self.substitute(p1), self.substitute(p2)) for p1, p2 in self.tour)
+		self.tour = tuple(self.substitute_match(*match) for match in self.tour)
 	def substitute(self, p):
-		p -= 1
-		if p > 1:
-			return p
-		if p:
+		if p > 2:
+			return p - 1
+		if p == 2:
 			return self.n
 		return 1
+	def substitute_match(self, p1, p2):
+		return self.substitute(p1), self.substitute(p2)
 def result(p1, p2):
 	#Другая жеребьёвка, другие рейтинги (для ручных сортировок).
 	print((p1, p2), end = ":")
@@ -24,8 +25,8 @@ def result(p1, p2):
 		result = 0
 	print(result, end = " ")
 	return result
-n = int(input("N?: "))
-t = int(input("T?: "))
+n = int(input("Количество участников: "))
+t = int(input("Количество круговых турниров: "))
 draw = Draw(n)
 ratings = [ratings.Rating() for _ in range(n + 1)]
 for _ in range((n - 1) * t):
