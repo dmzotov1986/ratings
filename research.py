@@ -1,22 +1,23 @@
 import ratings, random
-class Draw:
-	def __init__(self, n):
-		#Нечетные неправильно работают, нужен ещё тур! Надёжнее лишний игрок, с которым отдыхают.
-		self.odd = n & 1
-		self.n = n + self.odd
-		self.tour = tuple((p, n + 1 - p) for p in range(1, n // 2 + 1))
-	def next(self):
-		self.tour = tuple(self.substitute_match(*match) for match in self.tour)
-	def substitute(self, p):
-		if p > 2:
-			return p - 1
-		if p == 2:
-			return self.n
-		return 1
-	def substitute_match(self, p1, p2):
-		if p1 == 1 or p2 == 1:
-			p1, p2 = p2, p1
-		return self.substitute(p1), self.substitute(p2)
+def draw(n):
+	#Нечетные неправильно работают, нужен ещё тур! Надёжнее лишний игрок, с которым отдыхают.
+	n += n & 1
+	tour = tuple((p, n + 1 - p) for p in range(1, n // 2 + 1))
+	while True:
+		yield tour
+		if tour[0][1] == 2:
+			return
+		tour = tuple(substitute_match(*match, n) for match in tour)
+def substitute(p, n):#перевести на объект?
+	if p > 2:
+		return p - 1
+	if p == 2:
+		return n
+	return 1
+def substitute_match(p1, p2, n):
+	if p1 == 1 or p2 == 1:
+		p1, p2 = p2, p1
+	return substitute(p1, n), substitute(p2, n)
 def result(p1, p2):
 	#Другая жеребьёвка, другие рейтинги (для ручных сортировок).
 	print((p1, p2), end = ":")
@@ -30,13 +31,13 @@ def result(p1, p2):
 	return result
 n = int(input("Количество участников: "))
 t = int(input("Количество круговых турниров: "))
-draw = Draw(n)
+#Нужна подстановка место/сила!
 ratings = [ratings.Rating() for _ in range(n + 1)]
-for _ in range((n - 1) * t):
-	for p1, p2 in draw.tour:
-		ratings[p1].update(ratings[p2], result(p1, p2))
-	print()
-	for rating in ratings[1:]:
-		print(rating.rating, end = " ")
-	print()
-	draw.next()
+for _ in range(t):
+	for tour in draw(n):
+		for p1, p2 in tour:
+			ratings[p1].update(ratings[p2], result(p1, p2))
+		print()
+		for rating in ratings[1:]:
+			print(rating.rating, end = " ")
+		print()
