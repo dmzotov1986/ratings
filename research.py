@@ -41,7 +41,7 @@ n = int(input("Количество участников: "))
 t = int(input("Количество круговых турниров: "))
 rank_to_rating = [ratings.INITIAL_RATING for _ in range(n + 1)]#по другому
 #чаще смотрится рейтинг, чем настоящее место?
-place_to_rank = [rank for rank in range(n + 1)]#по другому
+place_to_rank = [rank for rank in range(n + 1)]#по другому и от 0 все
 for _ in range(t):
 	place_to_rank1 = place_to_rank[1:]
 	random.shuffle(place_to_rank1)
