@@ -39,6 +39,7 @@ def result(p1, p2):
 n = int(input("Количество участников: "))
 t = int(input("Количество круговых турниров: "))
 rank_to_rating = [ratings.INITIAL_RATING for _ in range(n + 1)]
+#чаще смотрится рейтинг, чем настоящее место!
 place_to_rank = [rank for rank in range(n + 1)]
 for _ in range(t):
 	place_to_rank1 = place_to_rank[1:]
