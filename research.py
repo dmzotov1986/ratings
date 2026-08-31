@@ -32,15 +32,16 @@ def result(p1, p2):
 		result = 2
 	else:
 		result = 0
+	#есть оптимальнее ветвление?
 	if not random.getrandbits(4):
 		result = 2 - result
 	print(result, end = " ")
 	return result
 n = int(input("Количество участников: "))
 t = int(input("Количество круговых турниров: "))
-rank_to_rating = [ratings.INITIAL_RATING for _ in range(n + 1)]
-#чаще смотрится рейтинг, чем настоящее место!
-place_to_rank = [rank for rank in range(n + 1)]
+rank_to_rating = [ratings.INITIAL_RATING for _ in range(n + 1)]#по другому
+#чаще смотрится рейтинг, чем настоящее место?
+place_to_rank = [rank for rank in range(n + 1)]#по другому
 for _ in range(t):
 	place_to_rank1 = place_to_rank[1:]
 	random.shuffle(place_to_rank1)
