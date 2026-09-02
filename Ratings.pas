@@ -4,8 +4,8 @@ const InitialRating = 0.0;
 type Result = 0..2;
 procedure Update(var First, Second: Real; const Result: Result);
 implementation
-procedure Update;
+procedure Update(var First, Second: Real; const Result: Result);
 begin
-
-end
+	
+end;
 end.
