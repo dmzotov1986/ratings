@@ -1,14 +1,15 @@
 import ratings, random
 def draw(n):
-	n += n & 1
-	tour = ((p, n + 1 - p) for p in range(1, n // 2 + 1))
+	if n & 1:
+		raise ValueError("Количество участников чётное")
+	tour = tuple((p, n + 1 - p) for p in range(1, n // 2 + 1))
 	substitution = Substitution(n)
 	while True:
 		yield tour
-		#Проверять n
-		if tour[0][1] == 2:
+		if n == 2:
 			return
-		tour = (substitution.match(*match) for match in tour)
+		n -= 1
+		tour = tuple(substitution.match(*match) for match in tour)
 class Substitution:#на глобальную переменную?
 	def __init__(self, n):
 		self._n = n
@@ -37,11 +38,12 @@ def result(p1, p2):
 	print(result, end = " ")
 	return result
 n = int(input("Количество участников: "))
+n += n & 1
 t = int(input("Количество круговых турниров: "))
 rank_to_rating = dict.fromkeys(range(1, n + 1), ratings.INITIAL_RATING)
 place_to_rank = dict(enumerate(range(1, n + 1), 1))
 for _ in range(t):
-	ranks = place_to_rank.values()
+	ranks = list(place_to_rank.values())
 	random.shuffle(ranks)
 	place_to_rank = dict(enumerate(ranks, 1))
 	for tour in draw(n):
@@ -49,6 +51,4 @@ for _ in range(t):
 			p1, p2 = (place_to_rank[p] for p in match)
 			rank_to_rating[p1], rank_to_rating[p2] = ratings.update(rank_to_rating[p1], rank_to_rating[p2], result(p1, p2))
 		print()
-		for rating in rank_to_rating:
-			print(rating, end = " ")
-		print()
+		print(rank_to_rating)
