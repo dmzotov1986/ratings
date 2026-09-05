@@ -6,7 +6,7 @@ def draw(n):
 	substitution = Substitution(n)
 	while True:
 		yield tour
-		if n == 2:
+		if n <= 2:
 			return
 		n -= 1
 		tour = tuple(substitution.match(*match) for match in tour)
