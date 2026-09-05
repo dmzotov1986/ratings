@@ -1,4 +1,4 @@
-import ratings, random
+import ratings, random, operator
 def draw(n):
 	if n & 1:
 		raise ValueError("Количество участников чётное")
@@ -51,4 +51,4 @@ for _ in range(t):
 			p1, p2 = (place_to_rank[p] for p in match)
 			rank_to_rating[p1], rank_to_rating[p2] = ratings.update(rank_to_rating[p1], rank_to_rating[p2], result(p1, p2))
 		print()
-		print(rank_to_rating)
+		print(sorted(rank_to_rating.items(), key=operator.itemgetter(1), reverse=True))
