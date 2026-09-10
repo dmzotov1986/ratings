@@ -10,8 +10,9 @@ def table_of_matches(n):
 		if p == 2:
 			return n
 		return 1
-	def substitute_match(p1, p2):
-		if p1 == 1 or p2 == 1:
+	def substitute_match(match):
+		p1, p2 = match
+		if not p1 != 1 != p2:
 			p1, p2 = p2, p1
 		return substitute_player(p1), substitute_player(p2)
 	while True:
@@ -19,9 +20,9 @@ def table_of_matches(n):
 		if k <= 2:
 			return
 		k -= 1
-		tour = tuple(substitute_match(*match) for match in tour)
+		tour = tuple(substitute_match(match) for match in tour)
 def result(p1, p2):
-	#Другая жеребьёвка, другие рейтинги. для ручных сортировок.
+	#Другая жеребьёвка, другие рейтинги. Для ручных сортировок.
 	print((p1, p2), end = ":")
 	if random.random() < 1 / (abs(p1 - p2) ** (1 / 3) + 1):
 		result = 1
@@ -34,11 +35,13 @@ def result(p1, p2):
 	print(result, end = " ")
 	return result
 n = int(input("Количество участников: "))
-n += n & 1
-t = int(input("Количество круговых турниров: "))
 rank_to_rating = dict.fromkeys(range(1, n + 1), ratings.INITIAL_RATING)
+odd = n & 1
+n += odd
+t = int(input("Количество круговых турниров: "))
 place_to_rank = dict(enumerate(range(1, n + 1), 1))
-#0 n или 1 n? место или ранг? для нечетных
+#0 n или 1 n? Для нечетных
+#Круговая система, очки для сравнения
 for _ in range(t):
 	ranks = list(place_to_rank.values())
 	random.shuffle(ranks)
@@ -46,6 +49,8 @@ for _ in range(t):
 	for tour in table_of_matches(n):
 		for match in tour:
 			p1, p2 = (place_to_rank[p] for p in match)
-			rank_to_rating[p1], rank_to_rating[p2] = ratings.update(rank_to_rating[p1], rank_to_rating[p2], result(p1, p2))
+			#Вывести отдыхающего тоже.
+			if not odd or p1 != n != p2:
+				rank_to_rating[p1], rank_to_rating[p2] = ratings.update(rank_to_rating[p1], rank_to_rating[p2], result(p1, p2))
 		print()
 		print(sorted(rank_to_rating.items(), key=operator.itemgetter(1), reverse=True))
