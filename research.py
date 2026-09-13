@@ -8,27 +8,26 @@ def table_of_matches(n):
 	#map
 	#takewhile
 	tour = tuple((p1, p2) for p1, p2 in zip(count(1), count(n, -1)) if p1 < p2)
-	k = n
 	def substitute_player(p):
-		if p > 2:
-			return p - 1
-		if p == 2:
-			return n
-		return 1
+		match p:
+			case _ if p > 2:
+				return p - 1
+			case 2:
+				return n
+			case _:
+				return 1
 	def substitute_match(match):
-		if any(p == 1 for p in match):
+		if 1 in match:
 			match = reversed(match)
-		p1, p2 = match
-		return substitute_player(p1), substitute_player(p2)
-	while True:
-		yield tour
-		if k <= 2:
-			return
-		k -= 1
+		return map(substitute_player, match)
+	yield tour
+	for _ in range(n, 2, -1):
 		tour = tuple(map(substitute_match, tour))
+		yield tour
 def result(p1, p2):
 	#Другая жеребьёвка, другие рейтинги. Для ручных сортировок.
 	print((p1, p2), end = ":")
+	#match
 	if random() < 1 / (abs(p1 - p2) ** (1 / 3) + 1):
 		result = 1
 	elif p1 < p2:
@@ -54,8 +53,8 @@ for _ in range(t):
 		for match in tour:
 			match = tuple(map(place_to_rank.__getitem__, match))
 			#filter?
-			if not(odd and any(p == n for p in match)):
+			if not(odd and n in match):
 				p1, p2 = match
-				rank_to_rating[p1], rank_to_rating[p2] = update(rank_to_rating[p1], rank_to_rating[p2], result(p1, p2))
+				rank_to_rating[p1], rank_to_rating[p2] = update(map(rank_to_rating.__getitem__, match), result(p1, p2))
 		print()
 		print(sorted(rank_to_rating.items(), key=itemgetter(1), reverse=True))
