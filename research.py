@@ -56,7 +56,6 @@ for _ in range(t):
 			#filter?
 			if not(odd and n in match):
 				new_ratings = update(map(rank_to_rating.__getitem__, match), result(match))
-				#много превращений
-				rank_to_rating.update((p, new_ratings[i]) for i, p in enumerate(match, 0))
+				rank_to_rating.update(zip(match, new_ratings))
 		print()
 		print(sorted(rank_to_rating.items(), key=itemgetter(1), reverse=True))
