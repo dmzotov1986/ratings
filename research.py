@@ -24,9 +24,10 @@ def table_of_matches(n):
 	for _ in range(n, 2, -1):
 		tour = tuple(map(substitute_match, tour))
 		yield tour
-def result(p1, p2):
+def result(match):
+	p1, p2 = match
 	#Другая жеребьёвка, другие рейтинги. Для ручных сортировок.
-	print((p1, p2), end = ":")
+	print(match, end = ":")
 	#match
 	if random() < 1 / (abs(p1 - p2) ** (1 / 3) + 1):
 		result = 1
@@ -54,7 +55,8 @@ for _ in range(t):
 			match = tuple(map(place_to_rank.__getitem__, match))
 			#filter?
 			if not(odd and n in match):
-				p1, p2 = match
-				rank_to_rating[p1], rank_to_rating[p2] = update(map(rank_to_rating.__getitem__, match), result(p1, p2))
+				new_ratings = update(map(rank_to_rating.__getitem__, match), result(match))
+				#много превращений
+				rank_to_rating.update((p, new_ratings[i]) for i, p in enumerate(match, 0))
 		print()
 		print(sorted(rank_to_rating.items(), key=itemgetter(1), reverse=True))
