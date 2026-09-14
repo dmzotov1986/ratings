@@ -1,13 +1,10 @@
-from random import shuffle, random
-from ratings import *
-from itertools import islice, count
-from operator import itemgetter
+for module in ("random", "ratings", "itertools", "operator"):
+	exec(f"from {module} import *")
+#map как add???
 def table_of_matches(n):
 	if n & 1:
 		raise ValueError("Количество участников чётное")
-	#map
-	#takewhile
-	tour = tuple((p1, p2) for p1, p2 in zip(count(1), count(n, -1)) if p1 < p2)
+	tour = tuple(takewhile(lambda match: lt(*match), zip(count(1), count(n, -1))))
 	def substitute_player(p):
 		match p:
 			case _ if p > 2:
@@ -19,23 +16,25 @@ def table_of_matches(n):
 	def substitute_match(match):
 		if 1 in match:
 			match = reversed(match)
-		return map(substitute_player, match)
-	yield tour
-	for _ in range(n, 2, -1):
-		tour = tuple(map(substitute_match, tour))
-		yield tour
+		return tuple(map(substitute_player, match))
+	def supply_tour():
+		nonlocal tour
+		while True:
+			yield tour
+			tour = tuple(map(substitute_match, tour))
+	return islice(supply_tour(), n - 1)
 def result(match):
-	p1, p2 = match
 	#Другая жеребьёвка, другие рейтинги. Для ручных сортировок.
 	print(match, end = ":")
-	#match
-	if random() < 1 / (abs(p1 - p2) ** (1 / 3) + 1):
-		result = 1
-	elif p1 < p2:
-		result = 2
-	else:
-		result = 0
-	if random() < 1 / (abs(p1 - p2) + 15):
+	distance = abs(sub(*match))
+	match distance:
+		case 0 | _ if random() < 1 / (distance ** (1 / 3) + 1):
+			result = 1
+		case _ if lt(*match):
+			result = 2
+		case _:
+			result = 0
+	if random() < 1 / (distance + 15):
 		result = 2 - result
 	print(result, end = " ")
 	return result
@@ -52,10 +51,8 @@ for _ in range(t):
 	place_to_rank = dict(enumerate(ranks, 1))
 	for tour in table_of_matches(n):
 		for match in tour:
-			match = tuple(map(place_to_rank.__getitem__, match))
-			#filter?
+			match = tuple(map(place_to_rank.get, match))
 			if not(odd and n in match):
-				new_ratings = update(map(rank_to_rating.__getitem__, match), result(match))
-				rank_to_rating.update(zip(match, new_ratings))
+				rank_to_rating.update(zip(match, update(map(rank_to_rating.get, match), result(match))))
 		print()
 		print(sorted(rank_to_rating.items(), key=itemgetter(1), reverse=True))
