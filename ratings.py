@@ -3,11 +3,12 @@ for module in ("random", "itertools", "operator"):
 INITIAL_RATING = 0.0
 def table_of_matches():
 	#Без генераторов
-	tour = []
-	for p1, p2 in zip(count(0), count(n, -1)):
-		if p1 >= p2:
-			break
-		tour.append([p1, p2])
+	tour = [None] * ((n + 1) // 2)
+	for i in range((n + 1) // 2):
+		tour[i] = [None, None]
+	for match, i in zip(zip(count(0), count(n, -1)), range((n + 1) // 2)):
+		for j, p in enumerate(match):
+			tour[i][j] = p
 	def tour_supplier():
 		while True:
 			yield tour
@@ -28,16 +29,18 @@ rank_to_rating = [INITIAL_RATING] * n
 rank_to_score = [0] * n
 odd = n & 1
 n += odd
-place_to_rank = list(range(n))
+place_to_rank = [None] * n
+for i in range(n):
+	place_to_rank[i] = i
 n -= 1
 t = int(input("Количество круговых турниров: "))
 for _ in range(t):
 	shuffle(place_to_rank)
 	for tour in table_of_matches():
 		for match in tour:
-			match_r = []
-			for p in match:
-				match_r.append(place_to_rank[p])
+			match_r = [None] * 2
+			for i, p in enumerate(match):
+				match_r[i] = place_to_rank[p]
 			if not(odd and n in match_r):
 				#Другая жеребьёвка, другие рейтинги, для ручных сортировок.
 				print(match_r, end = ":")
