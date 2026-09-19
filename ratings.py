@@ -3,26 +3,32 @@ for module in ("random", "itertools", "operator"):
 INITIAL_RATING = 0.0
 def table_of_matches():
 	#Без генераторов
-	tour = [None] * ((n + 1) // 2)
-	for i in range((n + 1) // 2):
+	tour = [None] * m
+	for i in range(m):
 		tour[i] = [None, None]
-	for match, i in zip(zip(count(0), count(n, -1)), range((n + 1) // 2)):
-		for j, p in enumerate(match):
+	for i, p1, p2 in zip(range(m), count(0), count(n, -1)):
+		p = p2
+		for j in count(1, -1):
 			tour[i][j] = p
+			if not j:
+				break
+			p = p1
 	def tour_supplier():
 		while True:
 			yield tour
-			for match in tour:
+			for i in range(m):
+				match = tour[i]
 				if 0 in match:
 					match.reverse()
-				for i, p in enumerate(match):
+				for j in range(2):
+					p = match[j]
 					p -= 1
 					if p <= 0:
 						if p == 0:
 							p = n
 						else:
 							p = 0
-					match[i] = p
+					match[j] = p
 	return islice(tour_supplier(), n)
 n = int(input("Количество участников: "))
 rank_to_rating = [INITIAL_RATING] * n
@@ -32,6 +38,7 @@ n += odd
 place_to_rank = [None] * n
 for i in range(n):
 	place_to_rank[i] = i
+m = n // 2
 n -= 1
 t = int(input("Количество круговых турниров: "))
 for _ in range(t):
