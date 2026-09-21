@@ -2,7 +2,6 @@ for module in ("random", "itertools", "operator"):
 	exec(f"from {module} import *")
 INITIAL_RATING = 0.0
 def table_of_matches():
-	#Без генераторов
 	tour = [None] * m
 	for i in range(m):
 		tour[i] = [None, None]
@@ -71,6 +70,7 @@ for _ in range(t):
 					if j == 1:
 						break
 					print(end = "-")
+				#указатели
 				for j in range(2):
 					exec(f"p{j + 1} = match_ranks[j]")
 				diff = p1 - p2
