@@ -1,19 +1,40 @@
+<!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Исследование рейтингов</title>
-    </head>
-    <body>
-        <div>
-            Рейтинги для турниров. Предлагаемая формула на основе существующих. Начальный рейтинг 0, за каждый выигрыш у равного +1, проигрыш -1, ничья +0. Однако, при игре с неравным соперником пропорционально обычной формуле для рейтингов. Похоже, такого рода рейтинги не подходят для круговых турниров. Скорее, для турниров, где игры ведутся с преимущественно равными соперниками.
-        </div>
-        <div>
-        	Количество участников:&nbsp;<input type="text"></input>
-        </div>
-        <div>
-        	Количество круговых турниров:&nbsp;<input type="text"></input>
-        </div>
-        <button onclick="alert('Test!')">Запустить симуляцию</button>
-    </body>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Исследование рейтингов</title>
+		<script type="text/javascript">
+			const INITIAL_RATING = 0.0
+			function table_of_matches(last) {
+				if(!(last & 1)) {
+					throw new RangeError("Индекс последнего игрока нечетный")
+				}
+				const tour = new Array(last + 1)
+				for(let match = last, player1 = 0, player2 = last; match >= 0; ++match, ++player1, --player2) {
+					tour[match] = player1
+					++match
+					tour[match] = player2
+				}
+				function* tour_supplier() {
+					for(;;) {
+						yield tour
+						for 
+					}
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<div>
+			Рейтинги для турниров. Предлагаемая формула на основе существующих. Начальный рейтинг 0, за каждый выигрыш у равного +1, проигрыш -1, ничья +0. Однако, при игре с неравным соперником пропорционально обычной формуле для рейтингов. Похоже, такого рода рейтинги не подходят для круговых турниров. Скорее, для турниров, где игры ведутся с преимущественно равными соперниками.
+		</div>
+		<div>
+			Количество участников:&nbsp;<input type="text"></input>
+		</div>
+		<div>
+			Количество круговых турниров:&nbsp;<input type="text"></input>
+		</div>
+		<button onclick="alert('Test!')">Запустить симуляцию</button>
+	</body>
 </html>

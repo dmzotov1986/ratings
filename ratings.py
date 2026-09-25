@@ -1,18 +1,18 @@
-for module in ("random", "itertools", "operator"):
-	exec(f"from {module} import *")
-INITIAL_RATING = 0.0
-def table_of_matches():
-	tour = [None] * m
-	for i in range(m):
-		tour[i] = [None, None]
-	for i, p1, p2 in zip(range(m), count(0), count(n, -1)):
-		match_places = tour[i]
-		p = p2
-		for j in count(1, -1):
-			match_places[j] = p
-			if not j:
-				break
-			p = p1
+#for module in ("random", "itertools", "operator"):
+#	exec(f"from {module} import *")
+#INITIAL_RATING = 0.0
+#def table_of_matches():
+#	tour = [None] * m
+#	for i in range(m):
+#		tour[i] = [None, None]
+#	for i, p1, p2 in zip(range(m), count(0), count(n, -1)):
+#		match_places = tour[i]
+#		p = p2
+#		for j in count(1, -1):
+#			match_places[j] = p
+#			if not j:
+#				break
+#			p = p1
 	def tour_supplier():
 		while True:
 			yield tour
