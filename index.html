@@ -11,8 +11,7 @@
 					throw new RangeError("Индекс последнего игрока нечетный, начиная с 1")
 				}
 				const tour = new Array(last + 1)
-				let player1 = 0, player2 = last
-				for (let i = 0;; ++i) {
+				for (let i, player1 = i = 0, player2 = last;; ++i) {
 					tour[i] = player1
 					tour[++i] = player2
 					if (++player1 >= --player2) {
