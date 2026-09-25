@@ -6,17 +6,18 @@
 		<title>Исследование рейтингов</title>
 		<script type="text/javascript">
 			const INITIAL_RATING = 0.0
-			function table_of_matches(last) {
+			function table_of_ies(last) {
 				if(!(last & 1)) {
 					throw new RangeError("Индекс последнего игрока нечетный")
 				}
 				const tour = new Array(last + 1)
-				for(let match = last, player1 = 0, player2 = last; match >= 0; ++match, ++player1, --player2) {
-					tour[match] = player1
-					++match
-					tour[match] = player2
+				for(let i = 0, player1 = 0, player2 = last; player1 < player2; ++i, ++player1, --player2) {
+					tour[i] = player1
+					++i
+					//генератор? правильно i ++
+					tour[i] = player2
 				}
-				function* tour_supplier() {
+				function *tour_supplier() {
 					for(;;) {
 						yield tour
 						for 
