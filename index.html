@@ -6,32 +6,46 @@
 		<title>Исследование рейтингов</title>
 		<script type="text/javascript">
 			const INITIAL_RATING = 0.0
-			function first_tour(last) {
-				if (!(last & 1 && last > 0)) {
+			function firstTour(last) {
+				if(!(last & 1 && last > 0)) {
 					throw new RangeError("Индекс последнего игрока нечетный, начиная с 1")
 				}
 				const tour = new Array(last + 1)
-				for (let i, player1 = i = 0, player2 = last;; ++i) {
+				for(let i, player1 = i = 0, player2 = last;; ++i) {
 					tour[i] = player1
 					tour[++i] = player2
-					if (++player1 >= --player2) {
+					if(++player1 >= --player2) {
 						break
 					}
 				}
 				return tour
 			}
+			function nextTour(tour) {
+				
+			}
+			function startSimulation() {
+				alert(firstTour(n.value - 1))
+			}
+			onload = () => {
+				readMe.height = readMe.contentWindow.document.documentElement.scrollHeight
+			}
 		</script>
+		<style>
+			iframe {
+				width: 100%;
+				border: none;
+				overflow: hidden;
+			}
+		</style>
 	</head>
 	<body>
+		<iframe id="readMe" src="README.md"></iframe>
 		<div>
-			Рейтинги для турниров. Предлагаемая формула на основе существующих. Начальный рейтинг 0, за каждый выигрыш у равного +1, проигрыш -1, ничья +0. Однако, при игре с неравным соперником пропорционально обычной формуле для рейтингов. Похоже, такого рода рейтинги не подходят для круговых турниров. Скорее, для турниров, где игры ведутся с преимущественно равными соперниками.
+			Количество участников:&nbsp;<input id=n>
 		</div>
 		<div>
-			Количество участников:&nbsp;<input type="text"></input>
+			Количество круговых турниров:&nbsp;<input id=t>
 		</div>
-		<div>
-			Количество круговых турниров:&nbsp;<input type="text"></input>
-		</div>
-		<button onclick="alert('Test!')">Запустить симуляцию</button>
+		<button onclick="startSimulation()">Запустить симуляцию</button>
 	</body>
 </html>
