@@ -1,0 +1,1 @@
+[https://dmzotov1986.github.io/ratings/](https://dmzotov1986.github.io/ratings/)
