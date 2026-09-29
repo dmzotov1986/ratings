@@ -21,10 +21,24 @@
 				return tour
 			}
 			function nextTour(tour) {
-				
+				const last = tour.length - 1
+				for(let i = 0; i < tour.length; ++i) {
+					let p = tour[i] - 1
+					if(p > 0) {
+						tour[i] = p
+					} else {
+						if(p == 0) {
+							tour[i] = last
+						}
+					}
+					console.log(tour[i])
+				}
 			}
 			function startSimulation() {
-				alert(firstTour(n.value - 1))
+				let tour = firstTour(n.value - 1)
+				console.log(tour)
+				nextTour(tour)
+				console.log(tour)
 			}
 		</script>
 		<style>
