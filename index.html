@@ -1,5 +1,4 @@
-<!--Переименовать в readme.html?-->
-<!DOCTYPE html>
+<!doctype html>
 <html>
 	<head>
 		<meta charset=UTF-8>
@@ -23,6 +22,7 @@
 			}
 			function nextTour(tour) {
 				const last = tour.length - 1
+				let zeroIndex
 				for(let i = 0; i <= last; ++i) {
 					const p = tour[i] - 1
 					if(p > 0) {
@@ -30,18 +30,40 @@
 					} else {
 						if(p == 0) {
 							tour[i] = last
+						} else {
+							zeroIndex = i
 						}
 					}
 				}
+				let zeroPairIndex
+				if(zeroIndex & 1) {
+					zeroPairIndex = zeroIndex - 1
+				} else {
+					zeroPairIndex = zeroIndex + 1
+				}
+				tour[zeroIndex] = tour[zeroPairIndex]
+				tour[zeroPairIndex] = 0
 			}
 			function startSimulation() {
 				const tour = firstTour(n.value - 1)
-				alert(tour)
+				print(tour)
 				nextTour(tour)
-				alert(tour)
+				print(tour)
+			}
+			function print(text) {
+				out.value += text + "\n"
 			}
 		</script>
 		<style>
+			input, textarea {
+				width: 100%;
+				box-sizing: border-box;
+			}
+			blockquote {
+				margin: 0 0 0 1em;
+				padding-left: 1.5em;
+				border-left: solid thin;
+			}
 			h1 {
 				text-align: center;
 			}
@@ -59,17 +81,23 @@
 		<p>
 			Предлагаемая формула на основе существующих.<br>
 			Начальный рейтинг 0, за каждый выигрыш у равного +1, проигрыш -1, ничья +0.<br>
-			При игре с неравным соперником пропорционально обычной формуле для рейтингов.<br>
-			<!--Цитата, обновление?-->
-			Похоже, такого рода рейтинги не подходят для круговых турниров.<br>
-			Скорее, для турниров, где игры ведутся преимущественно с равными соперниками.
+			При игре с неравным соперником пропорционально обычной формуле для рейтингов.
 		</p>
+		<blockquote>
+			<p>
+				Похоже, такого рода рейтинги не подходят для круговых турниров.<br>
+				Скорее, для турниров, где игры ведутся преимущественно с равными соперниками.
+			</p>
+		</blockquote>
 		<div>
-			Количество участников: <input id=n>
+			<label>Количество участников:<input id=n></label>
 		</div>
 		<div>
-			Количество круговых турниров: <input id=t>
+			<label>Количество круговых турниров:<input id=t></label>
 		</div>
 		<button onclick=startSimulation()>Запустить симуляцию</button>
+		<div>
+			<label>Результаты:<textarea id=out rows=10></textarea></label>
+		</div>
 	</body>
 </html>
