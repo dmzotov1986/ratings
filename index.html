@@ -1,10 +1,11 @@
+<!--Переименовать в readme.html?-->
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta charset=UTF-8>
+		<meta name=viewport content="width=device-width, initial-scale=1">
 		<title>Исследование рейтингов</title>
-		<script type="text/javascript">
+		<script type=text/javascript>
 			const INITIAL_RATING = 0.0
 			function firstTour(last) {
 				if(!(last & 1 && last > 0)) {
@@ -22,7 +23,7 @@
 			}
 			function nextTour(tour) {
 				const last = tour.length - 1
-				for(let i = 0; i < tour.length; ++i) {
+				for(let i = 0; i <= last; ++i) {
 					const p = tour[i] - 1
 					if(p > 0) {
 						tour[i] = p
@@ -52,7 +53,7 @@
 	</head>
 	<body>
 		<div align=right>
-			<a href="https://github.com/dmzotov1986/ratings/" target=_blank>Исходный код на github.com</a>
+			<a href=https://github.com/dmzotov1986/ratings/ target=_blank>Исходный код на github.com</a>
 		</div>
 		<h1>Рейтинги для турниров</h1>
 		<p>
@@ -68,6 +69,6 @@
 		<div>
 			Количество круговых турниров: <input id=t>
 		</div>
-		<button onclick="startSimulation()">Запустить симуляцию</button>
+		<button onclick=startSimulation()>Запустить симуляцию</button>
 	</body>
 </html>
