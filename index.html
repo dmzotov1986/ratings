@@ -23,7 +23,7 @@
 			function nextTour(tour) {
 				const last = tour.length - 1
 				for(let i = 0; i < tour.length; ++i) {
-					let p = tour[i] - 1
+					const p = tour[i] - 1
 					if(p > 0) {
 						tour[i] = p
 					} else {
