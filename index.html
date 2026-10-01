@@ -20,6 +20,7 @@
 				}
 				return tour
 			}
+			//Генераторы и Rust
 			function nextTour(tour) {
 				const last = tour.length - 1
 				let zeroIndex
@@ -61,15 +62,15 @@
 				width: 100%;
 				box-sizing: border-box;
 			}
-			blockquote {
-				margin: 0 0 0 1em;
+			aside {
+				margin: 1em 0 1em 1em;
 				padding-left: 1.5em;
 				border-left: solid thin;
 			}
 			h1 {
 				text-align: center;
 			}
-			p {
+			p, aside {
 				text-indent: 3ch each-line;
 				text-align: justify;
 			}
@@ -85,12 +86,10 @@
 			Начальный рейтинг 0, за каждый выигрыш у равного +1, проигрыш -1, ничья +0.<br>
 			При игре с неравным соперником пропорционально обычной формуле для рейтингов.
 		</p>
-		<blockquote>
-			<p><!--Убрать p? использовать aside-->
-				Похоже, такого рода рейтинги не подходят для круговых турниров.<br>
-				Скорее, для турниров, где игры ведутся преимущественно с равными соперниками.
-			</p>
-		</blockquote>
+		<aside>
+			Похоже, такого рода рейтинги не подходят для круговых турниров.<br>
+			Скорее, для турниров, где игры ведутся преимущественно с равными соперниками.
+		</aside>
 		<div>
 			<label>Количество участников:<input id=n></label>
 		</div>
