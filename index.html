@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset=UTF-8>
+		<meta name=viewport content="width=device-width, initial-scale=1">
+		<title>Исследование рейтингов</title>
+		<script type=text/javascript>
+			const INITIAL_RATING = 0.0
+			function firstTour(last) {
+				if(!(last & 1 && last > 0)) {
+					throw new RangeError("Индекс последнего игрока нечетный, начиная с 1")
+				}
+				const tour = new Array(last + 1)
+				for(let i, player1 = i = 0, player2 = last;; ++i) {
+					tour[i] = player1
+					tour[++i] = player2
+					if(++player1 >= --player2) {
+						break
+					}
+				}
+				return tour
+			}
+			//Генераторы и Rust?
+			function nextTour(tour) {
+				const last = tour.length - 1
+				let zeroIndex
+				for(let i = 0; i <= last; ++i) {
+					const p = tour[i] - 1
+					if(p > 0) {
+						tour[i] = p
+					} else {
+						if(p == 0) {
+							tour[i] = last
+						} else {
+							zeroIndex = i
+							//известно где, и чередуется; развернуть в пару с передней и задней частью.
+							print(zeroIndex)
+						}
+					}
+				}
+				let zeroPairIndex
+				if(zeroIndex & 1) {
+					zeroPairIndex = zeroIndex - 1
+				} else {
+					zeroPairIndex = zeroIndex + 1
+				}
+				tour[zeroIndex] = tour[zeroPairIndex]
+				tour[zeroPairIndex] = 0
+			}
+			function startSimulation() {
+				const tour = firstTour(n.value - 1)
+				print(tour)
+				nextTour(tour)
+				print(tour)
+			}
+			function print(text) {
+				out.value += text + "\n"
+			}
+		</script>
+		<style>
+			input, textarea {
+				width: 100%;
+				box-sizing: border-box;
+			}
+			aside {
+				margin: 1em 0 1em 1em;
+				padding-left: 1.5em;
+				border-left: solid thin;
+				//попробовать float?
+			}
+			h1 {
+				text-align: center;
+			}
+			p, aside {
+				text-indent: 3ch each-line;
+				text-align: justify;
+			}
+		</style>
+	</head>
+	<body>
+		<div align=right>
+			<a href=https://github.com/dmzotov1986/ratings/ target=_blank>Исходный код на github.com</a>
+		</div>
+		<h1>Рейтинги для турниров</h1>
+		<p>
+			Предлагаемая формула на основе существующих.<br>
+			Начальный рейтинг 0, за каждый выигрыш у равного +1, проигрыш -1, ничья +0.<br>
+			При игре с неравным соперником пропорционально обычной формуле для рейтингов.
+		</p>
+		<aside>
+			Похоже, такого рода рейтинги не подходят для круговых турниров.<br>
+			Скорее, для турниров, где игры ведутся преимущественно с равными соперниками.
+		</aside>
+		<div>
+			<label>Количество участников:<input id=n></label>
+		</div>
+		<div>
+			<label>Количество круговых турниров:<input id=t></label>
+		</div>
+		<button onclick=startSimulation()>Запустить симуляцию</button>
+		<div>
+			<label>Результаты:<textarea id=out rows=10></textarea></label>
+		</div>
+	</body>
+</html>
